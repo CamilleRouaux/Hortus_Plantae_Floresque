@@ -1,0 +1,121 @@
+{% extends "base.html.twig" %}
+{% block title %}
+  Fiche encyclo
+{% endblock %}
+{% block body %}
+
+  <div class="container-xl " id="body-plant">
+    <div class="d-flex justify-content-center mt-3"><a class="btn btn-success mb-3 " href="{{ path('app_front_plant_list') }}">Retourner sur l'Encyclopédie</a></div>
+    
+    <div class="section1">
+      <a href="{{ asset('uploads/' ~ plant.pictures[0].url) }}" target="_blank"><img src="{{ asset('uploads/' ~ plant.pictures[0].url) }}" alt="{{ plant.pictures[0].description }}" class="img-encyclo"></a> 
+      <div class="favorite-heart-button">
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+          {% if isFavorite %}
+            <form action="{{ path('app_front_plant_favorite_toggle', {'id': plant.id}) }}" method="POST">
+            <input src="{{ asset('image/icons/big-heart-full.png')}}" alt="Retirer cette plante de mes favoris" type="image">
+            </form>
+          {% else %}
+            <form action="{{ path('app_front_plant_favorite_toggle', {'id': plant.id}) }}" method="POST">
+              <input src="{{ asset('image/icons/bih-heart-empty.png')}}" alt="Ajouter cette plante à mes favoris" type="image">
+            </form>
+          {% endif %}
+        {% else %}
+          <input type="image" src="{{ asset('image/icons/bih-heart-empty.png')}}" data-bs-toggle="modal" data-bs-target="#addFavoriteModal" data-bs-content=" "> 
+        {% endif %}    
+      </div>
+      
+    </div>
+    
+    <div class="section2 py-5 px-5">
+      <h2 class="plant-name"><strong>{{ plant.name }}</strong></h2>
+      <h3 class="plant-latin-name"><i>{{ plant.latinName }}</i></h3>
+      <p class="plant-desc">{{ plant.description }}</p>
+      <div class="plant-block">
+        <div class="plant-family">
+          <ul>
+            <li>Nom commun : <span>{{ plant.name }}</span></li>
+            <li>Nom latin : <span>{{ plant.latinName }}</span></li>
+            <li>Famille : <span>Rosacées</span></li>
+            <li>Cycle de vie : <span>Vivace</span></li>
+          </ul>
+        </div>
+        <div class="plant-carousel">
+          {% for picture in plant.pictures %}
+            <a href="{{ asset('uploads/' ~ picture.url) }}" target="_blank"><img src="{{ asset('uploads/' ~ picture.url) }}" alt="{{ picture.description }}"></a> 
+          {% endfor %}    
+        </div>
+
+
+
+
+
+
+
+        </div>
+      </div>  
+      <div class="plant-tags">
+        {% for tag in plant.tags %}
+                <span class="badge bg-success mx-3">{{ tag.name }}</span>
+            {% endfor %}
+      </div>
+      <div class="plant-needs">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link text-dark active" id="soil-tab" data-bs-toggle="tab" data-bs-target="#soil-tab-pane" type="button" role="tab" aria-controls="soil-tab-pane" aria-selected="true"><img src="{{ asset('image/icons/planter.png')}}" alt="Icone de cisaille">Planter</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link text-dark" id="water-tab" data-bs-toggle="tab" data-bs-target="#water-tab-pane" type="button" role="tab" aria-controls="water-tab-pane" aria-selected="false"> <img src="{{ asset('image/icons/arroser2.png')}}" alt="Icone de cisaille">Arroser</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link text-dark" id="pruning-tab" data-bs-toggle="tab" data-bs-target="#pruning-tab-pane" type="button" role="tab" aria-controls="pruning-tab-pane" aria-selected="false"><img src="{{ asset('image/icons/tailler.png')}}" alt="Icone de cisaille">Tailler</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link text-dark" id="exposure-tab" data-bs-toggle="tab" data-bs-target="#exposure-tab-pane" type="button" role="tab" aria-controls="exposure-tab-pane" aria-selected="false"><img src="{{ asset('image/icons/ensoleillement.png')}}" alt="Icone de cisaille">Exposition</button>
+          </li>
+          
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade show active" id="soil-tab-pane" role="tabpanel" aria-labelledby="soil-tab" tabindex="0">{{ plant.soil is defined and plant.soil is not null ? plant.soil.type : 'N/A' }}</div>
+          <div class="tab-pane fade" id="water-tab-pane" role="tabpanel" aria-labelledby="water-tab" tabindex="0">Fréquence d'arrosage : {{ plant.frequencyOfWatering }} <br>
+        Volume d'arrosage : {{ plant.amountOfWater }}/10</div>
+          <div class="tab-pane fade" id="pruning-tab-pane" role="tabpanel" aria-labelledby="pruning-tab" tabindex="0">{{ plant.pruning }}</div>
+          <div class="tab-pane fade" id="exposure-tab-pane" role="tabpanel" aria-labelledby="exposure-tab" tabindex="0">{{ plant.exposure is defined and plant.exposure is not null ? plant.exposure.name : 'N/A' }}</div>
+      </div>        
+    </div>
+    <div class="d-flex justify-content-center mt-5">
+      {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        {% if isFavorite %}
+          <form action="{{ path('app_front_plant_favorite_toggle', {'id': plant.id}) }}" method="POST">
+              <button type="submit" class="btn btn-danger">Enlever cette plante de mes favoris <img src="{{ asset('image/icons/remove.png')}}" alt="Retirer un favoris"></button>
+          </form>
+        {% else %}
+          <form action="{{ path('app_front_plant_favorite_toggle', {'id': plant.id}) }}" method="POST">
+              <button type="submit" class="btn btn-success" >Ajouter cette plante à mes favoris <img src="{{ asset('image/icons/add.png')}}" alt="Ajouter à mes favoris"></button>
+          </form>
+        {% endif %}
+      {% else %}
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addFavoriteModal" >Ajouter cette plante à mes favoris <img src="{{ asset('image/icons/add.png')}}" alt="Bouton favoris"></button> 
+        <!-- Modal -->
+        <div class="modal fade" id="addFavoriteModal" tabindex="-1" aria-labelledby="addFavoriteModal" data-bs-backdrop="false" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="addFavoriteModalLabel">Connectez-vous pour ajouter cette plante</h6>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
+                <a class="btn btn-success" href="{{ path('app_loguser') }}">Se connecter</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endif %}  
+    </div>
+
+    
+  </div>
+{% endblock %}
+  

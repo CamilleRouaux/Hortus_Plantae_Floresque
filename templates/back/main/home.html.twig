@@ -1,0 +1,150 @@
+{% extends "back-base.html.twig" %}
+{% block title %}Home{% endblock %}
+
+{% block body %}
+
+
+<div class="container-xl text-center">
+    <div class="d-flex justify-content-center mt-3">
+        <a class="btn btn-primary mb-4 " href="{{ path('app_home') }}">Retourner sur le "Front Office"</a>
+    </div>
+        <div class="d-flex justify-content-center my-5">
+            <h2> Liste des 5 derniers articles et des fiches conseil</h2>
+        </div>
+
+        <div class="d-flex justify-content-end my-3">
+            <a class="btn btn-primary" href="{{ path('app_back_article_add') }}">Ajouter un article ou une fiche</a>
+        </div>
+
+            <table class="table table-striped border border-dark mt-3">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Type</th>
+                        <th>Titre de l'article</th>
+                        <th>Auteur</th>
+                        <th>Date de publication</th>
+                        <th>Nombre de commentaires</th>
+                        <th>Tags associés </th>
+                        <th>Actions</th>                        
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for article in articleListForBackHome %}
+                    
+                        <tr> 
+                            <td>{{ article.id }}</td>
+                            <td>{{article.type.name}}</td>
+                            <td><a href="{{ path('app_back_article_by_id', {id: article.id}) }}" class="text-primary">{{ article.title }}</a></td>
+                            <td>{{ article.user.firstname }} {{ article.user.lastname }} </td>  
+                            <td>{{ article.createdAt|date('Y-m-d') }}</td>
+                            <td>{{ article.comment|length }}</td> 
+                            <td>
+                            {% for tag in article.tags %}
+                            <span class="badge bg-success d-inline-flex my-1 ">{{ tag.name }}</span>
+                            {% endfor %} 
+                            </td>   
+                            
+                            <td>
+                                <form method="post" action="{{ path('app_back_article_delete', {'id': article.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer');">
+                                    <a href="{{ path('app_back_article_edit', {"id": article.id}) }}" class="btn btn-warning my-3">Modifier</a>
+                                    <input type="hidden" name="_token" value="{{ csrf_token('delete-article-' ~ article.id) }}">
+                                    <button class="btn btn-danger">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                </tbody>
+
+            </table>  
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_back_article_list')}}">Voir tout les articles</a>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+
+            <h2> Liste des 10 derniers tags</h2>
+
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            {% if is_granted('ROLE_ADMIN') %}<a class="btn btn-primary" href="{{ path('app_back_tag_create') }}">Ajouter un tag</a>{% endif %}
+        </div>
+
+        <table class="table table-striped border border-dark mt-3">
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    {% if is_granted('ROLE_ADMIN') %}<th>Actions</th>{% endif %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for tag in tagListForBackHome %}
+                <tr>
+                    <td>{{ tag.id }}</td>
+                    <td><a href="{{ path('app_back_tag_read', {"id": tag.id}) }}">{{ tag.name }}</a></td>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <td>
+                        <a href="{{ path('app_back_tag_update', {"id": tag.id}) }}" class="btn btn-warning">Modifier</a>
+                        <a href="{{ path('app_back_tag_delete', {"id": tag.id}) }}" class="btn btn-danger">Supprimer</a>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+        
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_back_tag_list')}}">Voir tout les tags</a>
+        </div>
+
+        <div class="d-flex justify-content-center mt-3">
+            <h2> Les 5 dernières plantes</h2>
+        </div>
+
+        <div class="d-flex justify-content-end mt-3">
+            {% if is_granted('ROLE_ADMIN') %}<a href="{{ path('app_back_plant_create') }}" class="btn btn-primary">Ajouter une plante</a>{% endif %}
+        </div>
+
+        <table class="table table-striped border border-dark mt-3">
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nom</th>
+                    <th>Nom Latin</th>
+                    {% if is_granted('ROLE_ADMIN') %}<th>Actions</th>{% endif %}
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for plant in plantListForBackHome %}
+                    <tr>
+                        <td>{{ plant.id }}</td>
+                        <td><a href="{{ path('app_back_plant_read', {"id": plant.id}) }}">{{ plant.name }} </a></td>
+                        <td>{{ plant.latinName }}</td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <td>
+                            <a href="{{ path('app_back_plant_update', {"id": plant.id}) }}" class="btn btn-warning">Modifier</a>
+                            <a href="{{ path('app_back_plant_delete', {"id": plant.id}) }}" class="btn btn-danger">Supprimer</a>
+                        </td>
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+              
+        </table>
+
+        <div class="d-flex justify-content-center mt-3">
+            <a class="btn btn-primary" href="{{ path('app_back_plant_list')}}">Voir toute les plantes</a>
+        </div>
+
+</div>
+{% endblock %}

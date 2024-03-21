@@ -1,0 +1,27 @@
+{% extends "base.html.twig" %}
+{% block title %}
+    Tous les articles
+{% endblock %}
+
+{% block body %}
+  <div class="container-xl text-center">
+    <h1 class="mb-5" style="text-decoration-line: underline">Tous nos articles</h1>
+      <div class="row row-cols-1 row-cols-md-3 g-5">
+        {% for article in articleList %}
+          <div class="col">
+            <div class="card">
+              <img src="{{ article.pictureUrl }}" class="card-img-top rounded-3" alt="{{ article.title }}" style="height: 16em">
+                <div class="card-body">
+                  <a href="{{ path('article_by_id', {id: article.id}) }}" class="text-dark"><h5 class="card-title" style="text-decoration-line: underline">{{ article.title }}</h5></a>
+                  <p class="card-text"><small class="text-body-secondary">Écrit par : {{ article.user.firstname }} {{ article.user.lastname }} <br> <span class="text-muted">le : {{ article.createdAt|date('d/m/Y à H:i') }}</span></small><p>                     
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('article_by_id', {id: article.id}) }}" class="btn btn-success">Lire cet article </a>
+                </div>
+            </div>
+          </div>
+        {% endfor %}                     
+      </div>
+  </div>    
+{% endblock %}
+                

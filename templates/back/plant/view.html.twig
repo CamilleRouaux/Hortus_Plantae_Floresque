@@ -1,0 +1,119 @@
+{% extends "back-base.html.twig" %}
+{% block title %}Fiche encyclo{% endblock %}
+{% block body %}
+{# 
+ici commence la section qui prend les 2/3 gauche de la page
+#}
+{# 
+Nom latin et noms communs l'un en dessous de l'autre. texte centré
+#}
+
+    <style>
+        /* Your CSS styles go here */
+        .body {
+            margin-top: 2em;
+        }
+    </style>
+
+{% if plant is empty %}
+    <p>Aucune Plante trouvée</p>
+{% else %}
+    <div class="row justify-content-around text-center body">
+        <div class="col-md-8">
+          <div class="container">
+              <h1 class="text-center"><strong>{{ plant.latinName }}</strong></h1>
+              <br>
+              <h2 class="text-center">{{ plant.name }}</h2>
+              <br>
+              {# Insert images here #}
+              <h3>Images</h3>
+              <form action="{{ path('app_back_plant_picture_add', {"id": plant.id}) }}" method="GET">
+                <input src="{{ asset('image/icons/uploadIcon.png')}}" alt="Ajouter cette plante à mes favoris" type="image" width="100">
+              </form>
+              <br>
+              {% for tag in plant.tags %}
+                  <span class="badge bg-success">{{ tag.name }}</span>
+              {% endfor %}
+              <br>
+              {% for picture in plant.pictures %}
+                  <img src="{{ asset('uploads/' ~ picture.url) }}" alt="{{ picture.description }}">
+              {% endfor %}
+              <h2>Description et informations générales:</h2>
+              <p class="fs-6 text-center">{{ plant.description }}</p>
+          </div>
+          <div class="row">
+              <div class="col-md-11 d-inline-flex gap-3 justify-content-center my-3">
+                  
+                  <form method="post" action="{{ path('app_back_plant_create', {'id': plant.id}) }}">
+                    <a href="{{ path('app_back_plant_create', {"id": plant.id}) }}" class="btn btn-success">Créer une nouvelle fiche</a>
+                    <input type="hidden" name="_token" value="{{ csrf_token('create-plant-' ~ plant.id) }}">
+                  </form>
+
+                  <form method="post" action="{{ path('app_back_plant_update', {'id': plant.id}) }}">
+                    <a href="{{ path('app_back_plant_update', {"id": plant.id}) }}" class="btn btn-warning">Modifier cette fiche</a>
+                    <input type="hidden" name="_token" value="{{ csrf_token('update-plant-' ~ plant.id) }}">
+                  </form>
+
+                  <form method="post" action="{{ path('app_back_plant_delete', {'id': plant.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer cette fiche?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-plant-' ~ plant.id) }}">
+                    <button class="btn btn-danger">Supprimer</button>
+                  </form>
+
+              </div>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="container">
+            <div class="row">
+                <table class="table-bordered">
+                  <tr>
+                    <th><h5><strong>Origine</strong></h5></th>
+                  </tr>
+                  <tr>
+                    <td>{{ plant.origin }}</td>
+                  </tr>
+                  <tr>
+                    <th><h5><strong>Zone de culture</strong></h5></th>
+                  </tr>
+                  <tr>
+                    <td>{{ plant.location.zone }}</td>
+                  </tr>
+                  <tr>
+                    <th><h5><strong>Volume d'arrosage</strong></h5></th>
+                  </tr>
+                  <tr>
+                    <td>{{ plant.amountOfWater }}</td>
+                  </tr>
+                  <tr>
+                    <th><h5><strong>Fréquence d'arrosage</strong></h5></th>
+                  </tr>
+                  <tr>
+                    <td>{{ plant.frequencyOfWatering }}</td>
+                  </tr>
+                  <tr>
+                    <th><h5><strong>Taille</strong></h5></th>
+                  </tr>
+                  <tr>
+                    <td>{{ plant.pruning }}</td>
+                  </tr>
+                  <tr>
+                    <th><h5><strong>Exposition</strong></h5></th>
+                  </tr>
+                  <tr>
+                    <td>{{ plant.exposure.name }}</td>
+                  </tr>
+                  <tr>
+                    <th><h5><strong>Type de sol</strong></h5></th>
+                  </tr>
+                  <tr>
+                    <td>{{ plant.soil.type }}</td>
+                  </tr>
+                </table>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+{% endif %}
+
+{% endblock %}

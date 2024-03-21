@@ -1,0 +1,83 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block body %}
+<div class="container-xl  text-center">
+  <div class="d-flex justify-content-center mb-3 "><a class="btn btn-success mb-3 " href="{{ path('app_article_list') }}">Retourner sur la liste des articles</a></div>
+  <p>{{ article.type.name }} de blog, écrit par {{ article.user.firstname }} {{ article.user.lastname }}, le {{ article.createdAt|date('d/m/Y à H:i') }}  </p>
+  <br>
+
+  {% for tag in article.tags %}
+    <span class="badge bg-success">{{ tag.name }}</span>
+  {% endfor %} 
+  <br>
+
+  <p>{{ article.content|raw }}</p>
+
+  {% if is_granted('ROLE_MEMBER', article) %}
+    <a href="{{ path('article_by_id_add_comment', {id:article.id}) }}" class="btn btn-success mb-4">Ajouter un commentaire</a>
+  {% else %}
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success mb-4" data-bs-toggle="modal" data-bs-target="#addCommentModal" >Ajouter un commentaire</button> 
+    <!-- Modal -->
+    <div class="modal fade" id="addCommentModal" tabindex="-1" aria-labelledby="addCommentModal" data-bs-backdrop="false" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title" id="addCommentModalLabel">Connectez-vous pour écrire un commentaire</h6>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
+            <a class="btn btn-success" href="{{ path('app_loguser') }}">Se connecter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+    <div class="card-header text-center"> Tous les commentaires</div>
+      {% for comment in article.comment %}
+        <div class="card text-center">     
+          <div class="card-body">
+            <h6 class="card-title">Commentaire de {{comment.user.firstname }} {{comment.user.lastname }} {{comment.rate}}/5</h6>
+            {% for i in 1..comment.rate %} 
+              <i class="las la-star"></i>
+            {% endfor %}
+            <p class="card-text">{{comment.content|raw }}</p>
+            <p class="text-secondary">posté le {{ comment.createdAt|date('d/m/Y à H:i') }}  </p> 
+          </div>
+        </div> 
+        <br>
+          {% set banButtonVisible = true %}
+          {% for notification in notifications %}
+              {% if comment.user == notification.ban %}
+                  {% set banButtonVisible = false %}
+              {% endif %}
+          {% endfor %}
+          {% if banButtonVisible %}
+            {% if is_granted('ROLE_MEMBER', article) %}             
+              <a href="{{ path('app_user_request_ban', {'userId': comment.user.id, 'articleId': article.id, 'commentId':comment.id })}}" class="btn btn-danger">Signaler ce commentaire</a>
+            {% else %}
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-danger mt-2" data-bs-toggle="modal" data-bs-target="#reportCommentModal" >Signaler ce commentaire</button> 
+              <!-- Modal -->
+              <div class="modal fade" id="reportCommentModal" tabindex="-1" aria-labelledby="reportCommentModal" data-bs-backdrop="false" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h6 class="modal-title" id="reportCommentModalLabel">Connectez-vous pour signaler ce commentaire</h6>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
+                      <a class="btn btn-success" href="{{ path('app_loguser') }}">Se connecter</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}         
+      {% endfor %} 
+</div>
+{% endblock %}

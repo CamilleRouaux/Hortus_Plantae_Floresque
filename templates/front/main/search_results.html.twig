@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+{% block title %}Search Results
+{% endblock %}
+{% block body %}
+	<div class="container text-center mt-5">
+		<h2 class="mb-4">Résultat pour : <strong>{{ searchTerm }}</strong></h2>
+
+		{# Displaying Plant results #}
+		{% if plants is not empty %}
+			<h3>Plantes</h3>
+			<div class="container-xl p-5 text-center">
+				<div class="row row-cols-1 row-cols-md-3 g-4">
+					{% for plant in plants %}
+						<div class="col mt-2">
+							<div class="card h-100">
+								<img src="{{ asset('uploads/' ~ plant.pictures[0].url) }}" alt="{{ plant.pictures[0].description }}" class="plant-img rounded-3">
+								<div
+									class="favorite-heart-button-list">
+									{#  Bouton d'ajout aux favroris sur chaque card de plante, doit toggle si ajoutée ou retirée + modal de connexion pour ajouter une plante #}
+									{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+										<form action="{{ path('app_front_plant_favorite_toggle_list', {'id': plant.id}) }}" method="POST">
+											{% if plant.getFavorite()|length > 0 %}
+												<input src="{{ asset('image/icons/med-heart-full.png')}}" alt="Remove from favorites" type="image">
+											{% else %}
+												<input src="{{ asset('image/icons/med-heart-empty.png')}}" alt="Add to favorites" type="image">
+											{% endif %}
+										</form>
+									{% else %}
+										<!-- Button trigger modal -->
+										<input
+										type="image" src="{{ asset('image/icons/med-heart-empty.png')}}" data-bs-toggle="modal" data-bs-target="#addFavoriteModal" data-bs-content=" ">
+										<!-- Modal -->
+										<div class="modal fade" id="addFavoriteModal" tabindex="-1" aria-labelledby="addFavoriteModal" data-bs-backdrop="false" aria-hidden="true">
+											<div class="modal-dialog modal-dialog-centered">
+												<div class="modal-content">
+													<div class="modal-header">
+														<h6 class="modal-title" id="addFavoriteModalLabel">Connectez-vous pour ajouter cette plante</h6>
+														<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+													</div>
+													<div class="modal-body">
+														<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Plus tard</button>
+														<a class="btn btn-success" href="{{ path('app_loguser') }}">Se connecter</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endif %}
+								</div>
+								<div class="card-body">
+									<h5 class="card-title">
+										<a href="{{ path('app_front_plant_show', {'id': plant.id}) }}" class="text-dark">{{ plant.name }}</a>
+									</h5>
+								</div>
+								<ul class="list-group list-group-flush d-inline ">
+									<li class="list-group-item fst-italic">Nom latin :
+										{{ plant.latinName }}</li>
+								</ul>
+								<div class="card-footer">
+									<a href="{{ path('app_front_plant_show', {'id': plant.id}) }}" class="btn btn-success">Voir cette plante
+									</a>
+								</div>
+							</div>
+							{% if loop.index % 3 == 0 %}
+								<div class="row my-3"></div>
+							{% endif %}
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<hr class="my-4">
+		{% endif %}
+
+		{# Displaying Article results #}
+		{% if articles is not empty %}
+			<h3>Articles</h3>
+			<div class="container-xl text-center">
+				<div class="row row-cols-1 row-cols-md-3 g-5">
+					{% for article in articles %}
+
+						<div class="col">
+							<div class="card">
+								<img src="{{ article.pictureUrl }}" class="card-img-top rounded-3" alt="{{ article.title }}" style="height: 16em">
+								<div class="card-body">
+									<h5 class="card-title" style="text-decoration-line: underline">{{ article.title }}</h5>
+									<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									<p></p>
+									<p class="card-text">
+										<small class="text-body-secondary">Écrit par :
+											{{ article.user.firstname }}
+											{{ article.user.lastname }}
+											<br>
+											<span class="text-muted">le :
+												{{ article.createdAt|date('d/m/Y à H:i') }}</span>
+										</small>
+									</p>
+								</div>
+								<div class="card-footer">
+									<a href="{{ path('article_by_id', {id: article.id}) }}" class="btn btn-success">Lire cet article</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<hr class="my-4">
+		{% endif %}
+
+		{# Displaying Card results #}
+		{% if cards is not empty %}
+			<h3>Fiches conseil</h3>
+			<div class="container-xl text-center">
+				<div class="row row-cols-1 row-cols-md-3 g-5">
+					{% for card in cards %}
+
+						<div class="col">
+							<div class="card">
+								<img src="{{ card.pictureUrl }}" class="card-img-top rounded-3" alt="{{ card.title }}" style="height: 16em">
+								<div class="card-body">
+									<h5 class="card-title" style="text-decoration-line: underline">{{ card.title }}</h5>
+									<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+									<p></p>
+									<p class="card-text">
+										<small class="text-body-secondary">Écrit par :
+											{{ card.user.firstname }}
+											{{ card.user.lastname }}
+											<br>
+											<span class="text-muted">le :
+												{{ card.createdAt|date('d/m/Y à H:i') }}</span>
+										</small>
+									</p>
+								</div>
+								<div class="card-footer">
+									<a href="{{ path('card_by_id', {id: card.id}) }}" class="btn btn-success">Lire cet card</a>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<hr class="my-4">
+		{% endif %}
+
+		{# Handle the case when no results are found #}
+		{% if plants is empty and articles is empty and cards is empty %}
+			<p>No results found.</p>
+		{% endif %}
+	</div>
+{% endblock %}

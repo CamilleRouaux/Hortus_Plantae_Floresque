@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta
+		name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Bootstrap CSS -->
+		<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+		<!-- Bootstrap icons -->
+		<link
+		rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+		<!-- Our custom CSS -->
+		<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+		<!-- favicon -->
+		<link rel="shortcut icon" href="#" type="image/x-icon">
+
+		<title>
+			{% block title %}Hortus Plantae Floresque BO
+			{% endblock %}
+		</title>
+	</head>
+
+	<body class="body_back">
+		<header>
+			<a href="{{ path("app_back_home") }}">
+				<img src="{{ asset('image/front/titre_blue.png')}}" alt="Titre Hortus Plantae Floresque">
+			</a>
+		</header>
+		<div id="menu_back" class="d-flex justify-content-center">
+			<nav class="navbar navbar-expand-lg">
+				<div class="collapse navbar-collapse" id="navbarSupportedContent">
+					<ul class="navbar-nav mx-auto">
+						<li class="nav-item{% if app.request.attributes.get('_route') == 'app_back_home' %} active{% endif %}">
+							<a class="nav-link text-dark" href="{{ path('app_back_home') }}">Accueil</a>
+						</li>
+						<li class="nav-item{% if app.request.attributes.get('_route') == 'app_back_article_list' %} active{% endif %}">
+							<a class="nav-link text-dark" href="{{ path('app_back_article_list') }}">Articles</a>
+						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item{% if app.request.attributes.get('_route') == 'app_back_user_list' %} active{% endif %}">
+							<a class="nav-link text-dark" href="{{ path('app_back_user_list') }}">Users</a>
+						</li>
+						{% endif %}
+						<li class="nav-item{% if app.request.attributes.get('_route') == 'app_back_tag_list' %} active{% endif %}">
+							<a class="nav-link text-dark" href="{{ path('app_back_tag_list') }}">Tags</a>
+						</li>
+						<li class="nav-item{% if app.request.attributes.get('_route') == 'app_back_plant_list' %} active{% endif %}">
+							<a class="nav-link text-dark" href="{{ path('app_back_plant_list') }}">Plants</a>
+						</li>
+						{% if is_granted('ROLE_ADMIN') %}
+						<li class="nav-item{% if app.request.attributes.get('_route') == 'app_back_notification_list' %} active{% endif %}">
+							<a class="nav-link text-dark" href="{{ path('app_back_notification_list') }}">Notifications</a>
+						</li>
+						{% endif %}
+						{# <li class="nav-item{% if app.request.attributes.get('_route') == 'your_stats_route' %} active{% endif %}">
+							<a class="nav-link text-dark" href="#">Stats</a>
+						</li> #}
+					</ul>
+					<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+								<span>{{ app.user.email }}
+									({% if app.user.roles[0] == 'ROLE_ADMIN' %}Admin{% elseif app.user.roles[0] == 'ROLE_REDACTOR' %}Rédacteur{% endif %})</span>
+								<i class="bi bi-person-square"></i>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a class="dropdown-item" href="{{ path("app_user_profile") }}">Profil</a>
+								</li>
+								<li><hr class="dropdown-divider"></li>
+								<li>
+									<a class="dropdown-item" href="{{ path("app_logout") }}">Déconnexion</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+		<div id="flash-message">
+			<div class="my-3">
+				{% for label, messages in app.flashes %}
+					{% for message in messages %}
+						<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+							{{ message }}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+					{% endfor %}
+				{% endfor %}
+			</div>
+		</div>	
+
+		{% block body %}
+			{# C'est ici qu'on va coder nos vues #}
+		{% endblock %}
+
+
+		{% block js %}{% endblock %}
+		<!-- Option 1: Bootstrap Bundle with Popper -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+	</body>
+</html>

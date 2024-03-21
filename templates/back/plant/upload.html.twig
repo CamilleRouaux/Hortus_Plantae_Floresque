@@ -1,0 +1,13 @@
+{% extends 'back-base.html.twig' %}
+
+{% block body %}
+    {# templates/back/plant/upload.html.twig #}
+    <h1>Adding a new picture</h1>
+
+    {{ form_start(form) }}
+        {{ form_row(form.picture) }}
+        {{ form_row(form.description) }}
+        
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+    {{ form_end(form) }}
+{% endblock %}

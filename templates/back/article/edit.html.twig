@@ -1,0 +1,28 @@
+{% extends "back-base.html.twig" %}
+{% block title %}Modifier un article ou une fiche conseil :{% endblock %}
+
+{% block body %}
+<div class="container-xl mt-5 p-5 ">
+
+    <div class="d-flex justify-content-start mt-3"><a class="btn btn-primary mb-3 " href="{{ path('app_back_article_list') }}">Retourner sur la liste des articles</a></div>
+
+    <h2>Modifier {% if article.type.name == "Article" %} l'article {% else %} la fiche conseil {% endif %} : <br>{{ article.title }} de {{ article.user.firstname }} {{ article.user.lastname }}.</h2>
+
+    <div class="mt-4">
+        {{ form_start(form, {"attr": {"novalidate": "novalidate"}}) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.picture_url) }}
+        {{ form_row(form.content, {'id' : 'post_content'}) }} 
+        {{ form_row(form.type) }}
+        {{ form_row(form.tags) }}
+        <button class="btn btn-primary">Modifier</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="{{ asset('tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('js/script.js') }}"></script>
+{% endblock %}

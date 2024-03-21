@@ -1,0 +1,38 @@
+{% extends "back-base.html.twig" %}
+
+
+    {% block title %}Tag Update{% endblock %}
+
+
+{% block body %}
+
+
+<div class="container">
+
+    <h1 class="d-flex justify-content-center align-items-center">Modifier un Tag</h1>
+
+        <div class="d-flex justify-content-center align-items-center">
+        
+                {{ form_start(formView, {"attr": {"novalidate": "novalidate"}}) }}
+
+                {{ form_row(formView.name) }}
+
+                <div class="d-flex justify-content-center align-items-center">
+
+                    <button type="submit" class="btn btn-warning ">Valider</button>
+
+                </div>
+
+                {{ form_end(formView) }}
+        
+        </div>
+
+    <div class="d-flex justify-content-center align-items-center">
+
+        <a href="{{ path('app_back_tag_list') }}" class="btn btn-secondary">Retour</a>
+
+    </div>
+
+</div>
+{% endblock %}
+

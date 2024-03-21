@@ -1,0 +1,49 @@
+{% extends "back-base.html.twig" %}
+
+
+    {% block title %}Tag List{% endblock %}
+
+
+{% block body %}
+<div class="container">
+
+    <div class="row justify-content-md-center">
+
+        <h1 class="row justify-content-md-center">Lecture d'un tag</h1>
+
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+                        <td>{{ tag.id }}</td>
+                        <td>{{ tag.name }}</td>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <td><a href="{{ path('app_back_tag_update', {"id": tag.id}) }}" class="btn btn-secondary">Modifier</a>
+                        <a href="{{ path('app_back_tag_delete', {"id": tag.id}) }}" class="btn btn-warning">Supprimer</a></td>
+                        {% endif %}
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        <div class="d-flex justify-content-center align-items-center">
+
+            <a href="{{ path('app_back_tag_list') }}" class="btn btn-secondary">Retour</a>
+
+        </div>
+
+    </div>
+    
+</div>
+{% endblock %}

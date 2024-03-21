@@ -1,0 +1,75 @@
+{% extends 'back-base.html.twig' %}
+
+{% block title %}Liste des utilisateurs
+{% endblock %}
+
+{% block body %}
+	<div class="container-xl p-5 border-top text-center">
+		<h1 class="user-list-title">Liste des utilisateurs</h1>
+
+		{% if userList is empty %}
+			<p>Aucun utilisateur trouvé</p>
+		{% else %}
+			<button id="showFalseUsersBtn" class="btn btn-secondary" data-show-all="false">Utilisateurs désactivés</button>
+
+			<table style="width: 100%;" id="userTable">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="sortable" data-sort-key="firstname">First Name</th>
+						<th class="sortable" data-sort-key="lastname">Last Name</th>
+						<th>
+							<select class="form-select" id="roleFilter" style="background-color: transparent; text-align: center; font-weight: bold; border: none;">
+								<option value="all">Role</option>
+								<option value="ROLE_MEMBER">Members</option>
+								<option value="ROLE_REDACTOR">Redactors</option>
+							</select>
+						</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in userList %}
+						{% set isBanRequested = false %}
+						{% set isRoleRequested = false %}
+						{% for notification in notifications %}
+
+							{% if notification.ban %}
+								{% if user.email in notification.ban.email %}
+									{% set isBanRequested = true %}
+								{% endif %}
+							{% endif %}
+							{% if user.email in notification.sender.email and notification.type == 'role' %}
+								{% set isRoleRequested = true %}
+							{% endif %}
+						{% endfor %}
+						<tr class="user-row" data-status="{{ user.status }}" data-roles="{{ user.roles|json_encode|e('html_attr') }}">
+							<td {% if isBanRequested %} class="red bi bi-exclamation-circle-fill" {% endif %} {% if isRoleRequested %} class="yellow bi bi-exclamation-circle-fill" {% endif %}></td>
+							<td>{{ user.firstname }}</td>
+							<td>{{ user.lastname }}</td>
+							<td>
+								{% if user.roles|length >= 2 %}
+									{{ user.roles[1] }}
+								{% else %}
+									{% for role in user.roles %}
+										{{ role }}
+										{% if not loop.last %},
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</td>
+							<td>
+								<a href="{{ path('app_back_user_edit', {"id": user.id}) }}" class="btn btn-warning">Modifier</a>
+								<a href="{{ path('app_back_user_view', {'id': user.id}) }}" class="btn btn-primary">Afficher</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+
+	<script src="{{ asset('js/backUser.js') }}"></script>
+
+
+{% endblock %}

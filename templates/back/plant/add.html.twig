@@ -1,0 +1,47 @@
+{% extends 'back-base.html.twig' %}
+
+{% block title %}Plant Add{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="mt-4">Ajouter une Plante</h1>
+
+        {{ form_start(form, {"attr": {"novalidate": "novalidate"}}) }}
+        <div class="form-group">
+            {{ form_row(form.latin_name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.description, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.amount_of_water, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.frequency_of_watering, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.pruning, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.origin, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.location, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.exposure, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.soil, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            {{ form_row(form.tags, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        
+        <button class="btn btn-primary">Ajouter</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

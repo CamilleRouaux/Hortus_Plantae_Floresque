@@ -1,0 +1,34 @@
+{% extends 'back-base.html.twig' %}
+
+{% block title %}User Details{% endblock %}
+
+{% block body %}
+    <h1>User Details</h1>
+    {% if user.id is defined %}
+        <p><strong>Name:</strong> {{ user.firstname }} {{ user.lastname }}</p>
+        <p><strong>Roles:</strong>
+            <td>
+                {% for role in user.roles %}
+                    {{ role }}
+                    {% if not loop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+            <a href="{{ path('app_back_user_edit', {'id': user.id}) }}" class="btn btn-primary">Modify</a>
+            <div id="roleSelection" style="display: none;">
+                <select id="newRoles" multiple>
+                    <option value="ROLE_MEMBER">ROLE_MEMBER</option>
+                    <option value="ROLE_MODERATOR">ROLE_MODERATOR</option>
+                </select>
+                <button id="saveRoles">Save</button>
+            </div>
+        </p>
+        <p><strong>Status:</strong>
+            <label class="switch">
+                <input type="checkbox" id="statusToggle" {% if user.status %}checked{% endif %} disabled>
+                <span class="slider"></span>
+            </label>
+        </p>
+    {% else %}
+        <p>Utilisateur non trouvé </p>
+    {% endif %}
+{% endblock %}

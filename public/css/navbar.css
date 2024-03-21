@@ -1,0 +1,116 @@
+.body_front{
+    background-image: url(../image/front/BG.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-color: #E9F1E2; 
+    background-size: cover;
+}
+
+.body_back{
+    background-image: url(../image/front/BGBO.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-color: #DFF0FF; 
+    background-size: cover;
+    padding: 130px 140px 0px ;
+}
+
+header{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#menu{
+    top: 2px;
+    position: sticky;
+    background-image: url(../image/front/navbar.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size:contain ;
+    z-index: 4;
+    display: flex;
+    justify-content: center;
+}
+
+#menu-1415{
+    display: none;
+}
+
+#menu_back{
+    top: 2px;
+    position: sticky;
+    background-image: url(../image/front/navbar_blue.png);
+    background-repeat: no-repeat;
+    background-position-x: center;
+    background-size:contain ;
+}
+
+/* Custom CSS for the active link */
+.navbar-nav .nav-item.active a.nav-link {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#logo-rond{
+    width: 300px;
+    margin-left: 40px;
+}
+
+@media screen and (max-width: 1415px) {
+    .body_front{
+        background-image: url(../image/front/BG-1415.png);
+        background-repeat: no-repeat;
+        background-position-x: center;
+        background-color: #E9F1E2; 
+    }
+
+	#menu {
+		display: none;
+	} 
+
+    #menu-1415 {
+        margin: 20px auto 0;
+        display:flex;
+        justify-content: center;
+        width: 75%;
+    }
+
+    .custom-toggler.navbar-toggler {
+        border-color: rgb(255, 255, 255);
+    }
+
+    .custom-toggler .navbar-toggler-icon {
+        background-image: url(
+"data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+    }
+
+    #nav-1415{
+        width: 100%;
+        background-color: #618D61;
+        border-radius: 10px;
+    }
+
+    #home-title{
+        display: none;
+    }
+
+    @media screen and (max-width: 1080px) {
+        .body_front{
+            background-image: none;
+            background-color:#E9F1E2 ;
+            background-size:auto;
+        }
+
+        @media screen and (max-width: 650px) {
+            .offcanvas-end {
+                width: 250px;
+            }
+            
+            #logo-rond{
+                width: 200px;
+                margin-left: 10px;
+            }
+        }
+    }
+}

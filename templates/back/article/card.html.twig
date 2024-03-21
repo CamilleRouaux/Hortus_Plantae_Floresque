@@ -1,0 +1,52 @@
+{% extends "back-base.html.twig" %}
+{% block title %}Fiche conseil :{% endblock %}
+
+{% block body %}
+
+<div class="container-xl mt-5 p-3 ">
+
+    <div class="d-flex justify-content-start mt-5">
+        <a class="btn btn-primary mb-3 " href="{{ path('app_back_article_list') }}">Retourner sur la liste des articles et fiche</a>
+    </div>
+
+    <form method="post" action="{{ path('app_back_article_delete', {'id': article.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer');">
+        <a href="{{ path('app_back_article_edit', {"id": article.id}) }}" class="btn btn-warning my-3">Modifier</a>
+        <input type="hidden" name="_token" value="{{ csrf_token('delete-article-' ~ article.id) }}">
+        <button class="btn btn-danger">Supprimer</button>
+    </form>
+
+    <p>Ceci est un {{ card.type.name }} , écrit par {{ card.user.firstname }} {{ card.user.lastname }}, le {{ card.createdAt|date('d/m/Y à h:i') }}  </p>
+    <strong class="d-inline-block mb-2 text-primary">{{ card.title }}</strong>  
+
+    <br>
+
+
+    {% for tag in card.tags %}
+    <span class="badge bg-success">{{ tag.name }}</span>
+    {% endfor %} 
+    <br>
+    {% for picture in card.pictures %}
+    <img src="{{ picture.url }}" alt="{{ picture.description }}">
+    {% endfor %}  
+
+    <p>{{ card.content|raw }}</p>
+
+    <div class="card-header text-center"> Tous les commentaires</div>
+        {% for comment in card.comment %}
+            <div class="card text-center">     
+                <div class="card-body">
+                    <h6 class="card-title">Commentaire de {{comment.user.firstname }} {{comment.user.lastname }}</h6>
+                    <p>note de {{comment.rate }}/5</p>
+                    <p class="card-text">{{comment.content|raw }}</p>
+                    <p class="link-secondary">posté le {{ comment.createdAt|date('d/m/Y à h:i') }}  </p>
+                </div>
+                <form method="post" action="{{ path('app_back_article_comment_delete', {'id': comment.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer ?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('delete-comment-' ~ comment.id) }}">
+                    <button class="btn btn-danger mb-2">Supprimer ce commentaire</button>
+                </form>
+            </div> 
+            <br>
+        {% endfor %} 
+
+</div>
+{% endblock %}

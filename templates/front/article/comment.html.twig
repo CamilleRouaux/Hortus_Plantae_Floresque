@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+{% block body %}
+
+<div class="container pt-5">
+
+    <div class="row mb-2">
+    <div class="d-flex justify-content-end mt-3"><a class="btn btn-success mb-3 " href="{{ path('article_by_id', {id: article.id}) }}">Retourner sur l'article</a></div>
+        <div class="col">
+            <h2>Ajouter un commentaire sur : {{ article.title }} </h2>
+                
+            {{ form_start(form, {'attr' : {'novalidate': 'novalidate'} }) }}
+                <h6 class="mt-5">Votre note sur 5 :</h6>
+                <div class="stars" style="font-size : 40px ">
+                    <i class="lar la-star" data-value="1"></i>
+                    <i class="lar la-star" data-value="2"></i>
+                    <i class="lar la-star" data-value="3"></i>
+                    <i class="lar la-star" data-value="4"></i>
+                    <i class="lar la-star" data-value="5"></i>
+                </div>
+            {{ form_row(form.rate, {'id' : 'note',
+                                    'value' : '0',
+                                    'name' : 'note',
+                                }) }}
+
+            {{ form_row(form.content, {'id' : 'post_comment'}) }}
+               
+            <button class="btn btn-success">Ajouter votre commentaire </button>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %} 
+<script src="{{ asset('tinymce/tinymce.min.js') }}"></script>
+<script src="{{ asset('js/comment.js') }}"></script>
+<script src="{{ asset('js/rating.js') }}"></script>
+{% endblock %}

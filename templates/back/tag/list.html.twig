@@ -1,0 +1,44 @@
+{% extends "back-base.html.twig" %}
+
+
+    {% block title %}Tag List{% endblock %}
+
+
+{% block body %}
+<div class="container-xl p-5 text-center">
+    <div class="row justify-content-md-center">
+
+        <h1 class="row justify-content-md-center">Les Tags</h1>
+
+            <table class="table table-striped">
+
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Nom</th>
+                        {% if is_granted('ROLE_ADMIN') %}<th><a href="{{ path('app_back_tag_create') }}" class="btn btn-success">Ajouter</a></th>{% endif %}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for currentTag in tagList %}
+                        <tr>
+                            <td>{{ currentTag.id }}</td>
+                            <td>{{ currentTag.name }}</td>
+                            <td>
+                                <form method="post" action="{{ path('app_back_tag_delete', {'id': currentTag.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer');">
+                                    <a href="{{ path('app_back_tag_read', {"id": currentTag.id}) }}" class="btn btn-secondary">Afficher</a>
+                                    {% if is_granted('ROLE_ADMIN') %}
+                                    <a href="{{ path('app_back_tag_update', {"id": currentTag.id}) }}" class="btn btn-warning">Modifier</a>
+                                    <button class="btn btn-danger">Supprimer</button>
+                                    {% endif %}
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                
+            </table>
+    </div>
+</div>
+{% endblock %}

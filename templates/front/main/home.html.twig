@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% block title %}
+  Home
+  
+{% endblock %}
+
+{% block body %}
+  <div class="text-center">
+    <h1 style="text-decoration-line: underline">
+      Nos 3 derniers articles :
+    </h1>
+    <div class="slider-container">
+      <div class="slider-content">
+        {% for article in articleList %}
+          <div class="slider-single">
+            <img class="slider-single-image rounded-3" src="{{ article.pictureUrl }}" alt="1" />
+            <h1 class="slider-single-title">
+              {{ article.title }}
+            </h1>
+            <a class="slider-single-likes btn btn-success" href="{{ path('article_by_id', {id: article.id}) }}">
+              Lire cet article
+            </a>
+          </div>
+        {% endfor %}
+
+      </div>
+    </div>
+  </div>
+
+{% endblock %}{% block js %}
+<script src="{{ asset('js/carousel.js') }}"></script>{% endblock %}

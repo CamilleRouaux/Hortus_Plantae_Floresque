@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+{% block title %}Toutes les fiches conseil :{% endblock %}
+
+{% block body %}
+<div class="container-xl text-center">
+    <h1 class="mb-5" style="text-decoration-line: underline">Toutes nos fiches conseil :</h1>
+      <div class="row row-cols-1 row-cols-md-3 g-5">
+        {% for card in cardList %}
+          <div class="col">
+            <div class="card">
+              <img src="{{ card.pictureUrl }}" class="card-img-top rounded-3" alt="{{ card.title }}" style="height: 16em">
+                <div class="card-body">
+                  <a href="{{ path('card_by_id', {id: card.id}) }}" class="text-dark"><h5 class="card-title" style="text-decoration-line: underline">{{ card.title }}</h5></a>
+                  <p class="card-text"><small class="text-body-secondary">Écrit par : {{ card.user.firstname }} {{ card.user.lastname }} <br> <span class="text-muted">le : {{ card.createdAt|date('d/m/Y à H:i') }}</span></small><p>                     
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('card_by_id', {id: card.id}) }}" class="btn btn-success">Lire cette fiche </a>
+                </div>
+            </div>
+          </div>
+        {% endfor %}                     
+      </div>
+  </div>    
+{% endblock %}

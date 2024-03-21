@@ -1,0 +1,33 @@
+{# templates/back/notification/list.html.twig #}
+
+{% extends 'back-base.html.twig' %}
+
+{% block title %}Notification
+{% endblock %}
+
+{% block body %}
+	<div class="container mt-4">
+		<h5 class="mb-1">Type:
+			{{ notification.type }}</h5>
+		<p class="mb-1">Sender:
+			{{ notification.sender.getEmail() }}</p>
+		<p class="mb-1">Message:
+			{{ notification.message }}</p>
+		<p class="mb-1">Created At:
+			{{ notification.createdAt|date('Y-m-d H:i') }}</p>
+		{% if notification.ban is not null %}
+			<p class="mb-1">Ban Information:
+				{{ notification.ban.getUsername() }}</p>
+		{% endif %}
+		{% if notification.ban is not null %}
+			{% set userId = notification.ban.getId() %}
+		{% else %}
+			{% set userId = notification.sender.getId() %}
+		{% endif %}
+		<a href="{{ path('app_back_user_edit', {'id': userId}) }}" class="btn btn-success mb-2">Résoudre</a>
+	</div>
+	<div class="container mt-4">
+		<a href="{{ path('app_back_notification_list') }}" class="btn btn-secondary mb-2">Retour</a>
+	</div>
+	<script src="{{ asset('js/custom.js') }}"></script>
+{% endblock %}

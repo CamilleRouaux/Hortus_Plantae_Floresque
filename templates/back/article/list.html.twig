@@ -1,0 +1,62 @@
+{% extends "back-base.html.twig" %}
+{% block title %}Tous les articles{% endblock %}
+
+{% block body %}
+<div class="container-xl p-5 text-center">
+
+    <h1> Liste des articles et des fiches conseil en Backoffice :</h1>
+
+    <div class="d-flex justify-content-end mt-4"><a class="btn btn-primary" href="{{ path('app_back_article_add') }}">Ajouter un article ou une fiche</a></div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>
+                    <select class="form-select" id="typeFilter" style="background-color: transparent; text-align: center; font-weight: bold; border: none;">
+						<option value="all">Type</option>
+						<option value="article">Article</option>
+						<option value="fiche">Fiche</option>
+				    </select>
+                </th>
+                <th id="titleHeader">Titre de l'article</th>
+                <th id="authorHeader">Auteur</th>
+                <th id="dateHeader">Date et heure de publication</th>
+                <th>Nombre de commentaires</th>
+                <th>Tags associés </th>
+                <th>Actions</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+
+        {% for article in articleList %}
+        
+            <tr> 
+                <td>{{ article.id }}</td>
+                <td>{{article.type.name}}</td>
+                <td><a href="{{ path('app_back_article_by_id', {id: article.id}) }}" class="text-primary">{{ article.title }}</a></td>
+                <td>{{ article.user.firstname }} {{ article.user.lastname }} </td>  
+                <td>{{ article.createdAt|date('d/m/Y à H:i') }}</td>
+                <td>{{ article.comment|length }}</td> 
+                <td>
+                {% for tag in article.tags %}
+                <span class="badge bg-success d-inline-flex my-1 ">{{ tag.name }}</span>
+                {% endfor %} 
+                </td>   
+                
+                <td>
+                    <form method="post" action="{{ path('app_back_article_delete', {'id': article.id}) }}" onsubmit="return confirm('Etes vous sur de vouloir supprimer');">
+                        <a href="{{ path('app_back_article_edit', {"id": article.id}) }}" class="btn btn-warning my-3">Modifier</a>
+                        <input type="hidden" name="_token" value="{{ csrf_token('delete-article-' ~ article.id) }}">
+                        <button class="btn btn-danger">X</button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>  
+</div>
+	<script src="{{ asset('js/backArticles.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'back-base.html.twig' %}
+
+{% block title %}User Update
+{% endblock %}
+
+{% block body %}
+	<div class="container-xl bg-light my-3 p-3 border-top ">
+
+		<h1>Modifier le user
+			{{ user.firstname }}</h1>
+
+		{{ form_start(form, {"attr": {"novalidate": "novalidate"}}) }}
+
+		<div class="form-group">
+			<label for="{{ form.roles.vars.id }}"></label>
+			{{ form_row(form.roles) }}
+		</div>
+		
+		{% if conditionsMet == true %}
+			<div class="form-group">
+				<label for="{{ form.status.vars.id }}"></label>
+				{{ form_row(form.status) }}
+			</div>
+		{% endif %}
+
+
+		<button class="btn btn-primary">Modifier</button>
+		{{ form_end(form) }}
+
+	</div>
+{% endblock %}

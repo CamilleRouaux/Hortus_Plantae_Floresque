@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}S'inscrire{% endblock %}
+
+{% block body %}
+    <div class="register-box mt-5">
+        <h1 class="mt-4">S'inscrire</h1>
+        <div class="user-box">
+            {{ form_start(form, {"attr": {"novalidate": "novalidate"}}) }}
+            <div class="form-group">
+                {{ form_row(form.firstname, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="user-box">
+            <div class="form-group">
+                {{ form_row(form.lastname, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>    
+        <div class="user-box">    
+            <div class="form-group">
+                {{ form_row(form.email, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>    
+        <div class="user-box">    
+            <div class="form-group">
+            {{ form_row(form.password, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>    
+        <div class="user-box">    
+            <div class="form-group">
+                {{ form_row(form.city, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>    
+        <div class="user-box">
+            <div class="form-group">
+                {{ form_row(form.country, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>    
+            <input type="submit" value="Je m'inscris" id="register-button" >
+
+            {{ form_end(form) }}
+    </div>
+{% endblock %}

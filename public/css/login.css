@@ -1,0 +1,170 @@
+
+.login-box {
+  padding: 60px;
+  background: #618D61;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.login-box h1 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.login-box .user-box {
+  position: relative;
+}
+
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top:0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 15px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -25px;
+  left: 0;
+  color: #fff;
+  font-size: 16px;
+  
+}
+
+#login-button {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  background-color: #618D61;
+  border: unset;
+
+}
+
+#login-button:hover {
+  background: #618D61;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #fff,
+              0 0 25px #618D61,
+              0 0 50px #618D61,
+              0 0 100px #618D61;
+}
+
+#register-button {
+  position: relative;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  color: #fff;
+  background-color: #618D61;
+  border: unset;
+}
+
+#register-button:hover {
+  background: #618D61;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #fff,
+              0 0 25px #618D61,
+              0 0 50px #618D61,
+              0 0 100px #618D61;
+}
+/* ------------ Formulaire d'inscription ------------------------------ */
+.register-box {
+  padding: 60px;
+  background: #618D61;
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0,0,0,.6);
+  border-radius: 10px;
+  margin-left: 10%;
+  margin-right: 10%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.register-box h1 {
+  margin: 0 0 30px;
+  padding: 0;
+  color: #fff;
+  text-align: center;
+}
+
+.register-box .user-box {
+  position: relative;
+}
+
+.register-box .user-box input {
+  width: 100%;
+  font-size: 15px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  background: transparent;
+}
+.register-box .user-box label {
+  font-size: 15px;
+  color: #fff;
+  pointer-events: none;
+  transition: .5s;
+}
+
+#register-button {
+  position: relative;
+  padding: 10px 20px;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: .5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+  color: #fff;
+  background-color: #618D61;
+  border: unset;
+}
+
+#register-button:hover {
+  background: #618D61;
+  color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 5px #fff,
+              0 0 25px #618D61,
+              0 0 50px #618D61,
+              0 0 100px #618D61;
+}
+

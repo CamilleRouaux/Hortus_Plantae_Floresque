@@ -1,12 +1,3 @@
-# Hortus Plantae Floresque :
-## Description : 
-
-Site de partage sur les plantes, le jardin et les fleurs.
-Nous avons également mis en place une fonctionnalitée appelée "Plant-snap" qui permet à l'utilisateur connecté d'identifier des plantes par photos.
-
-## Preview :
-
-
 # Instruction d'installation du projet Horus, Plantae, Floresque
 
 Notre projet utilise **PHP 7.4**, une version essentielle pour le bon fonctionnement de Composer.

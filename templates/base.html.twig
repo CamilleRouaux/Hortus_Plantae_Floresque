@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="fr">
+
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Bootstrap CSS -->
+		<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+		<!-- Bootstrap icons -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+		<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+		<!-- Our custom CSS -->
+		<link rel="stylesheet" href="{{ asset('css/navbar.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/carousel.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
+
+		<!-- favicon -->
+		<link rel="shortcut icon" href="#" type="image/x-icon">
+
+
+		<title>
+			{% block title %}Hortus Plantae Floresque
+			{% endblock %}
+		</title>
+	</head>
+
+
+
+	<body class="body_front">
+			<header>
+				<a href="{{ path("app_home") }}">
+					<img src="{{ asset('image/front/titre1.png')}}" alt="Titre Hortus Plantae Floresque" id="home-title">
+				</a>
+			</header>
+			{# ----------------------------------------------------Début Menu moins de 1415px ---------------------------- #}
+			<div id="menu-1415">
+				<nav class="navbar navbar-light bg-primary-subtle " id="nav-1415">
+					<div class="container-md">
+						<a class="navbar-brand text-light" href="{{ path("app_home") }}">Hortus Plantae Floresque</a>
+						<button class="navbar-toggler custom-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon "></span>
+						</button>
+						<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+							<div class="offcanvas-header">
+								<h5 class="offcanvas-title" id="offcanvasNavbarLabel"><img src="{{ asset('image/front/HPF.png')}}" alt=" Petit logo Hortus Plantae Floresque" id="logo-rond"></h5>
+								<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+							</div>
+							<div class="offcanvas-body">
+								<ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+									<li class="nav-item">
+										<a class="nav-link text-dark active" aria-current="{{ path("app_home") }}" href="{{ path("app_home") }}">Accueil</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" href="{{ path("app_card_list") }}">Fiche conseil</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" href="{{ path("app_front_plant_list") }}">Encyclopédie</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" href="{{ path("app_article_list") }}">Blog</a>
+									</li>
+									<li class="nav-item">
+										<a class="nav-link text-dark" href="{{ path("app_plant_snap") }}">Plant-snap</a>
+									</li>
+									<form class="d-flex" action="{{ path('search_bar') }}" method="GET">
+										<input class="form-control form-control-sm me-2" name="search" type="search" placeholder="Rechercher..." style="width: 50%">
+										<button class="btn btn-outline-success me-2" type="submit">
+											<i class="bi bi-search"></i>
+										</button>
+									</form>
+									{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+												<span>{{ app.user.email }}</span>
+												<i class="bi bi-person-square"></i>
+											</a>
+											<ul class="dropdown-menu">
+												<li>
+													<a class="dropdown-item" href="{{ path("app_user_profile") }}">Mon Profil</a>
+												</li>
+												{% if is_granted('ROLE_REDACTOR') %}
+													<li>
+														<a class="dropdown-item" href="{{ path("app_back_home") }}">Backoffice</a>
+													</li>
+												{% endif %}
+												<li>
+													<hr class="dropdown-divider">
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path("app_logout") }}">Déconnexion</a>
+												</li>
+											</ul>
+										</li>
+									{% else %}
+										<li class="nav-item dropdown">
+											<a class="nav-link dropdown-toggle btn btn-success text-white" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown">Mon compte</a>
+											<ul class="dropdown-menu dropdown-menu-lg-end">
+												<li>
+													<a class="dropdown-item" href="{{ path("app_loguser") }}">Se connecter</a>
+												</li>
+												<li>
+													<a class="dropdown-item" href="{{ path("app_user_create") }}">S'inscrire</a>
+												</li>
+											</ul>
+										</li>
+									{% endif %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				</nav>
+			</div>
+			{# ----------------------------------------------------Début Menu + de 1415px ---------------------------- #}
+			<div id="menu">  
+				<nav class="navbar navbar-expand-lg">
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav mx-auto">
+							<li class="nav-item{% if app.request.attributes.get('_route') == 'app_home' %} active{% endif %}">
+								<a class="nav-link text-dark" href="{{ path("app_home") }}">Accueil</a>
+							</li>
+							<li class="nav-item{% if app.request.attributes.get('_route') == 'app_card_list' %} active{% endif %}">
+								<a class="nav-link text-dark" href="{{ path("app_card_list") }}">Fiche conseil</a>
+							</li>
+							<li class="nav-item{% if app.request.attributes.get('_route') == 'app_front_plant_list' %} active{% endif %}">
+								<a class="nav-link text-dark" href="{{ path("app_front_plant_list") }}">Encyclopédie</a>
+							</li>
+							<li class="nav-item{% if app.request.attributes.get('_route') == 'app_article_list' %} active{% endif %}">
+								<a class="nav-link text-dark" href="{{ path("app_article_list") }}">Blog</a>
+							</li>
+							<li class="nav-item{% if app.request.attributes.get('_route') == 'app_plant_snap' %} active{% endif %}">
+								<a class="nav-link text-dark" href="{{ path("app_plant_snap") }}">Plant-snap</a>
+							</li>
+						</ul>
+						<form class="d-flex" action="{{ path('search_bar') }}" method="GET">
+							<input class="form-control form-control-sm me-2" name="search" type="search" placeholder="Rechercher..." style="width: 50%">
+							<button class="btn btn-outline-success me-2" type="submit">
+								<i class="bi bi-search"></i>
+							</button>
+						</form>
+						{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+							<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+								<li class="nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-dark" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+										<span>{{ app.user.email }}</span>
+										<i class="bi bi-person-square"></i>
+									</a>
+									<ul class="dropdown-menu">
+										<li>
+											<a class="dropdown-item" href="{{ path("app_user_profile") }}">Mon Profil</a>
+										</li>
+										{% if is_granted('ROLE_REDACTOR') %}
+											<li>
+												<a class="dropdown-item" href="{{ path("app_back_home") }}">Backoffice</a>
+											</li>
+										{% endif %}
+										<li>
+											<hr class="dropdown-divider">
+										</li>
+										<li>
+											<a class="dropdown-item" href="{{ path("app_logout") }}">Déconnexion</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						{% else %}
+							<div class="btn-group">
+								<button type="button" href="{{ path("app_loguser") }}" class="btn btn-success me-2 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false">
+									Mon compte
+								</button>
+								<ul class="dropdown-menu dropdown-menu-lg-end">
+									<li>
+										<a class="dropdown-item" href="{{ path("app_loguser") }}">Se connecter</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="{{ path("app_user_create") }}">
+											S'inscrire</a>
+									</li>
+								</ul>
+							</div>
+						{% endif %}
+					</div>
+				</nav>
+				{# --------------------------------------------------------Fin du menu + de 1415px -------------------------------------------------------- #}
+			</div>
+			<div id="flash-message">
+				<div class="my-1">
+					{% for label, messages in app.flashes %}
+						{% for message in messages %}
+							<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+								{{ message }}
+								<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+							</div>
+						{% endfor %}
+					{% endfor %}
+				</div>
+			</div>
+
+			<div class="container-xl p-3 ">
+				{% block body %}
+					{# C'est ici qu'on va coder nos vues #}
+				{% endblock %}
+
+				<!-- footer -->
+				<footer class="container-fluid  py-4 text-center">
+					<span class="text-muted">HPF made with &hearts; at O'clock !</span>
+					<div class="d-flex justify-content-around">
+						<div class="text-muted">
+							<br><small>
+								<a href="{{ path("app_legal_notice") }}" class="link-secondary text-decoration-none">Mentions légales</a>
+							</small>
+							<br><small>
+								<a href="{{ path("app_contact_us") }}" class="link-secondary text-decoration-none">Nous contacter</a>
+							</small>
+						</div>
+
+						<br>
+
+						<div class="text-muted">Retrouvez nous aussi sur :
+							<br>
+							<a href="https://www.instagram.com/hortus_plantae_floresque/"><img src="{{ asset('image/icons/instagram.png')}}" alt="Lien vers notre Instagram"></a>
+							<a href="https://www.youtube.com/channel/UCfe4GOHozuwxm85ZSO9Mjgg"><img src="{{ asset('image/icons/youtube.png')}}" alt="Lien vers notre Youtube"></a>
+							<a href="https://www.facebook.com/groups/964789428398742/"><img src="{{ asset('image/icons/fb.png')}}" alt="Lien vers notre Facebook"></a>
+						</div>
+					</div>
+
+				</footer>
+
+				<!-- end of footer -->
+				<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+
+			</div>
+			{% block js %}{% endblock %}
+	
+	</body>
+</html>

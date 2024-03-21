@@ -1,0 +1,41 @@
+{% extends "base.html.twig" %}
+{% block title %}Plant-snap{% endblock %}
+
+{% block body %}
+<div class="container-xl text-center" id="snap-container">
+
+	<h1 class="mb-5" style="text-decoration-line: underline">Bienvenue sur Plant-snap !</h1>
+   <div class="card-snap">
+      <h4>D'accord, mais .. C'est quoi <i>"Plant-snap"</i> ?</h4>
+      <br>
+     <div class="info-snap">
+         <p>Plant-snap est un système qui vous permet d'identifier une plante en utilisant jusqu'à <em>5 photos</em> de la même plante ! </p>
+         <p>Il vous affichera une liste de plantes correspondantes, chacune avec son nom commun, son nom latin, et sa famille. <br>
+         Le tout avec un niveau de <i>fiabilité</i> exprimé en pourcentage. </p>
+         <p>Pour l'utiliser, il faut donc lui fournir des photos de <em>qua-li-té</em>.</p>
+         <p>Ah, et une photo de qualité, c'est quoi ? <br>
+         Et bien <i>(Jamie)</i>, c'est une photo avec : </p>
+         <ul>
+            <li>une image nette, centré sur une fleur (ou feuille, fruit, tige)</li>
+            <li>une bonne mise au point</li>
+            <li>un arrière-plan avec un flou naturel ou neutre</li>   
+            <li>pas de bout de doigt !</li>
+         </ul>
+         <br>
+         <h4 class="go-snap"> Maintenant, à vous de jouer !</h4> 
+         <br>
+         <p>Vous pouvez soit glisser une image dans le rectangle en pointillé ci-dessous, <br> soit importer une photo depuis vos images en cliquant directement sur le rectangle.</p>
+      </div>
+
+   </div>
+
+
+
+
+	{# Script & apiKey for Pl@ntNet  #}
+	<script src="https://unpkg.com/ai-taxonomist/dist/src/index.js?module" type="module"></script>
+	<ai-taxonomist apiKey="2b101UlVUiKfvluwVVnsD4hRV" class="prefer-light"></ai-taxonomist>
+
+</div>
+{% endblock %}
+
