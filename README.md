@@ -6,6 +6,8 @@ Nous avons également mis en place une fonctionnalitée appelée "Plant-snap" qu
 
 ## Preview :
 
+![Hortus Plantae Floresque](/public/image/hortus.png)
+
 
 # Instruction d'installation du projet Horus, Plantae, Floresque
 
